@@ -18,6 +18,8 @@ services:
       dockerfile: nginx/Dockerfile
     depends_on:
       - astro-app
+    volumes:
+      - ./astro/dist:/usr/share/nginx/html # bind-mount directo
     container_name: astro_nginx_ngrok
     ports:
       - "80:80" # Puerto nginx
@@ -27,7 +29,7 @@ services:
     networks:
       - astro-network
     environment:
-      - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN} 
+      - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
       - NGROK_REGION=eu
       - NGROK_PORT=80
 

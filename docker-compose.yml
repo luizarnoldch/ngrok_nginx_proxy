@@ -19,10 +19,10 @@ services:
     depends_on:
       - astro-app
     volumes:
-      - ./astro/dist:/usr/share/nginx/html # bind-mount directo
+      - astro_dist:/usr/share/nginx/html
     container_name: astro_nginx_ngrok
     ports:
-      - "80:80" # Puerto nginx
+      - "6080:80" # Puerto nginx
       - "443:443" # Puerto nginx
       - "4040:4040" # Puerto dashboard ngrok (opcional)
     restart: unless-stopped

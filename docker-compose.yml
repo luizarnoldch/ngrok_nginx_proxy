@@ -1,0 +1,39 @@
+services:
+  astro-app:
+    build:
+      context: .
+      dockerfile: astro_app/Dockerfile
+    container_name: astro_app
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - astro_dist:/app/dist
+    networks:
+      - astro-network
+
+  nginx-ngrok:
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    depends_on:
+      - astro-app
+    container_name: astro_nginx_ngrok
+    ports:
+      - "80:80" # Puerto nginx
+      - "443:443" # Puerto nginx
+      - "4040:4040" # Puerto dashboard ngrok (opcional)
+    restart: unless-stopped
+    networks:
+      - astro-network
+    environment:
+      - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN} 
+      - NGROK_REGION=eu
+      - NGROK_PORT=80
+
+networks:
+  astro-network:
+    driver: bridge
+
+volumes:
+  astro_dist:

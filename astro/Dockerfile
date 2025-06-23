@@ -3,11 +3,11 @@ FROM node:22 AS builder
 WORKDIR /app
 
 # Copia package.json e instala dependencias
-COPY astro_app/package*.json ./
+COPY astro/package*.json ./
 RUN npm install
 
 # Copia el resto de archivos y construye la app
-COPY astro_app/ .
+COPY astro/ .
 RUN npm run build
 
 # Producción con NGINX

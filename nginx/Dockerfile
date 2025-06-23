@@ -20,7 +20,7 @@ COPY nginx/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 # Copia archivos estáticos generados por Astro
-COPY astro_app/dist /usr/share/nginx/html
+COPY astro/dist /usr/share/nginx/html
 
 EXPOSE 80 443 4040
 

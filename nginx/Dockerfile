@@ -1,11 +1,11 @@
 # ─── FASE 1: build Astro ───────────────────────
-# FROM node:22 AS builder
-# WORKDIR /app
+FROM node:22 AS builder
+WORKDIR /app
 
-# COPY astro/package*.json ./
-# RUN npm i
-# COPY astro/ .
-# RUN npm run build     # genera /app/dist
+COPY astro/package*.json ./
+RUN npm i
+COPY astro/ .
+RUN npm run build     # genera /app/dist
 
 # ─── FASE 2: Nginx + ngrok ─────────────────────
 FROM nginx:latest
@@ -32,9 +32,9 @@ RUN chmod +x /entrypoint.sh
 # # Copiamos el build de Astro
 
 # COPY astro_app/dist /usr/share/nginx/html
-# COPY --from=builder /app/dist /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/nginx/html
 
 EXPOSE 80 443 4040
 
 CMD ["/entrypoint.sh"]
-# CMD ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]

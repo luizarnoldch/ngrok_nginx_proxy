@@ -1,5 +1,5 @@
 # Builder stage
-FROM node:22 AS builder
+FROM node:22
 WORKDIR /app
 
 # Copia package.json e instala dependencias
@@ -8,13 +8,9 @@ RUN npm install
 
 # Copia el resto de archivos y construye la app
 COPY astro/ .
-RUN npm run build
 
-# Producción con NGINX
-FROM nginx:latest
+# El directorio de salida donde se publican los ficheros estáticos
+VOLUME /app/dist
 
-# Copia los archivos estáticos generados
-COPY --from=builder /app/dist /usr/share/nginx/html
-
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+# Este comando hace build y deja archivos en /app/dist (volumen montado)
+CMD ["npm", "run", "build"]

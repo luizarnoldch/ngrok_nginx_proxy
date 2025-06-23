@@ -18,11 +18,9 @@ services:
       dockerfile: nginx/Dockerfile
     depends_on:
       - astro-app
-    volumes:
-      - astro_dist:/usr/share/nginx/html
     container_name: astro_nginx_ngrok
     ports:
-      - "6080:80" # Puerto nginx
+      - "80:80" # Puerto nginx
       - "443:443" # Puerto nginx
       - "4040:4040" # Puerto dashboard ngrok (opcional)
     restart: unless-stopped
@@ -32,6 +30,8 @@ services:
       - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
       - NGROK_REGION=eu
       - NGROK_PORT=80
+    volumes:
+      - astro_dist:/usr/share/nginx/html
 
 networks:
   astro-network:
